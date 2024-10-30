@@ -1,0 +1,6 @@
+Reviews.csv
+processed_reviews.csv
+data_processing.py
+# Ignore CSV files
+*.csv
+venv/

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Sentiment Analysis</h1>
+        <form id="sentimentForm">
+            <div class="form-group">
+                <label for="textInput">Enter Text:</label>
+                <textarea id="textInput" class="form-control" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Analyze Sentiment</button>
+        </form>
+        <h3 class="mt-4" id="result"></h3>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#sentimentForm').on('submit', function(event) {
+                event.preventDefault();  // Prevent the default form submission
+
+                const text = $('#textInput').val();  // Get the input text
+
+                // Make the API call to the Flask backend
+                $.ajax({
+                    url: '/predict',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ text: text }),
+                    success: function(response) {
+                        // Display the prediction result
+                        $('#result').text('Sentiment: ' + response.sentiment);
+                    },
+                    error: function(error) {
+                        // Handle any errors
+                        $('#result').text('Error: ' + error.responseJSON.error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
